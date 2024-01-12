@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h3> Produit</h3>
+    <hr>
+    <p class="h4 mb-4">Save Produit</p>
+    <form  th:action="@{/produit/save}"
+          th:object="${produit}" method="POST">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="text" th:field="*{designation}" placeholder="Designation"
+               class="form-control mb-4 w-25">
+        <input type="text" th:field="*{code}" placeholder="Code"
+               class="form-control mb-4 w-25">
+        <input type="text" th:field="*{prixAchat}" placeholder="Prix Achat"
+               class="form-control mb-4 w-25">
+        <input type="text" th:field="*{prixVente}" placeholder="Prix Vente"
+               class="form-control mb-4 w-25">
+        <div class="form-group">
+            <label class="control-label">Catégorie</label>
+            <select class="form-control"
+                    th:field="*{categorie}">
+                <option th:each="c : ${categories}" th:value="${c.id}"
+                        th:text="${c.designation}" />
+        
+            </select>
+        </div>
+        <button type="submit" class="btn btn-info col-2">Save</button>
+    </form>
+    <hr>
+    <a th:href="@{/produit/list}" >Back to Produit List </a>
+</div>
+</body>
+</html>

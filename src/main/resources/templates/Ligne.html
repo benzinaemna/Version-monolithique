@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    
+    <title>Ligne Facture</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/facture/saveLigne}" th:object="${ligneFacture}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="mb-3">
+            <label for="produit" class="form-label">Produit</label>
+            <select class="form-select" id="produit" th:field="*{produit}">
+                <option th:each="c : ${produits}" th:value="${c.id}" th:text="${c.designation}" />
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="quantite" class="form-label">Quantité</label>
+            <input type="number" class="form-control" id="quantite" placeholder="Quantité" th:field="*{quantity}">
+        </div>
+        <button type="submit" class="btn btn-success" id="ajouterProduit">Ajouter Produit</button>
+    
+    </form>
+    <div class="mt-4">
+        <h5>Produits Choisis</h5>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+            </tr>
+            </thead>
+            <tbody id="listeProduits">
+            <tr th:each="ligne : ${ligneFactures}">
+                <td th:text="${ligne.produit.designation}"></td>
+                <td th:text="${ligne.quantite}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<script>
+    document.getElementById('ajouterProduit').addEventListener('click', function () {
+        var produit = document.getElementById('produit').options[document.getElementById('produit').selectedIndex].text;
+        var quantite = document.getElementById('quantite').value;
+        var listeProduits = document.getElementById('listeProduits');
+        var nouvelElement = document.createElement('li');
+        nouvelElement.textContent = produit + ' - ' + quantite;
+        listeProduits.appendChild(nouvelElement);
+    });
+</script>
+</html>

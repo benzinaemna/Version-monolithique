@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Facture</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Formulaire de Facture</h1>
+    <form  th:action="@{/facture/save}" th:object="${facture}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="mb-3">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" class="form-control" id="date" th:field="*{date}" placeholder="Date">
+        </div>
+        <div class="mb-3">
+            <label for="code" class="form-label">Code</label>
+            <input type="text" class="form-control" id="code" th:field="*{code}" placeholder="Code">
+        </div>
+        <div class="mb-3">
+            <label for="client" class="form-label">Client</label>
+            <select class="form-select" id="client" th:field="*{client}">
+                <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.firstName}" />
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Enregistrer</button>
+    </form>
+    <hr>
+    <div>
+        <form th:action="@{/facture/UpdateLigne}" th:object="${ligneFacture3}" method="post">
+        
+            <div class="mb-3">
+                <label for="produit" class="form-label">Produit</label>
+                <select class="form-select" id="produit" th:field="*{produit}">
+                    <option th:each="c : ${produits}" th:value="${c.id}" th:text="${c.designation}" />
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="quantite" class="form-label">Quantité</label>
+                <input type="number" class="form-control" id="quantite" placeholder="Quantité" th:field="*{quantity}">
+            </div>
+            <button type="submit" class="btn btn-success" id="ajouterProduit">Ajouter Produit</button>
+    
+        </form>
+        <div class="mt-4">
+            <h5>Produits Choisis</h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="listeProduits">
+                <tr th:each="ligne : ${ligneFacture}">
+                    <td th:text="${ligne.produit.designation}"></td>
+                    <td th:text="${ligne.quantity}"></td>
+                
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    </form>
+</div>
+
+<script>
+    document.getElementById('ajouterProduit').addEventListener('click', function () {
+        var produit = document.getElementById('produit').options[document.getElementById('produit').selectedIndex].text;
+        var quantite = document.getElementById('quantite').value;
+        var listeProduits = document.getElementById('listeProduits');
+        var nouvelElement = document.createElement('li');
+        nouvelElement.textContent = produit + ' - ' + quantite;
+        listeProduit.appendChild(nouvelElement);
+    });
+</script>
+</body>
+
+</html>
+</body>
+</html>
